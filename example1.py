@@ -15,10 +15,10 @@ strategy_description = 'Always betray.'
 def move(my_history, their_history, my_score, their_score):
   random_value = random.randint(100,200)
 
-  /2
-  if random_v== random_value:alue:
+  
+  if random_value == random_value:
     for i in my_history:
-      if i % random_value == 0:
+      if len(my_history) % random_value == 0:
         return 'c'
       else:
         return 'b'

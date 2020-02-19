@@ -1,34 +1,33 @@
 --------------------------------------------------------------------------------
 Section 0 - Line up
 --------------------------------------------------------------------------------
-Player 0 (P0): Rush Hour, Random
-        everything is completly random
+Player 0 (P0): missing assignment, missing assignment
+        missing assignment
 Player 1 (P1): E1, Betray
         Always betray.
 Player 2 (P2): E2, Alternate
         Collude, then alternate.
-Player 3 (P3): E3, Collude but retaliate
-        Collude first round. Collude, except in a round after getting 
-        a severe punishment.
+Player 3 (P3): Rush Hour, Random
+        everything is completly random
 --------------------------------------------------------------------------------
 Section 1 - Player vs. Player
 --------------------------------------------------------------------------------
 Each column shows pts//round earned against each other player:
              P0     P1     P2     P3
-vs. P0 :      0   -100   -171   -201
-vs. P1 :   -358      0   -377   -377
-vs. P2 :   -157    -74      0   -201
-vs. P3 :   -102    -74   -198      0
-TOTAL  :   -617   -248   -746   -779
+vs. P0 :      0   -252   -249   -352
+vs. P1 :   -249      0   -241   -382
+vs. P2 :   -249   -257      0   -384
+vs. P3 :   -107    -67    -59      0
+TOTAL  :   -605   -576   -549  -1118
 --------------------------------------------------------------------------------
 Section 2 - Leaderboard
 --------------------------------------------------------------------------------
 Average points per round:
 Team name (P#):  Score      with strategy name
-E1        (P1):        -62 points with Betray                                  
-Rush Hour (P0):       -155 points with Random                                  
-E2        (P2):       -187 points with Alternate                               
-E3        (P3):       -195 points with Collude but retaliate                   
+E2        (P2):       -138 points with Alternate                               
+E1        (P1):       -144 points with Betray                                  
+missing as(P0):       -152 points with missing assignment                      
+Rush Hour (P3):       -280 points with Random                                  
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 example0--------------------------------------------------------------------------------
@@ -39,28 +38,14 @@ example0------------------------------------------------------------------------
 #     strategy_description: a string
 #     move: A function that returns 'c' or 'b'
 ####
-
-team_name = 'Rush Hour'
-strategy_name = 'Random'
-strategy_description = 'everything is completly random'
-import random
-listss = [0, 1]
 def move(my_history, their_history, my_score, their_score):
-  '''Make my move based on the history with this player.
-    
-  history: a string with one letter (c or b) per round that has been played with this opponent.
-  their_history: a string of the same length as history, possibly empty. 
-  The first round between these two players is my_history[0] and their_history[0]
-  The most recent round is my_history[-1] and their_history[-1]
-    
-  Returns 'c' or 'b' for collude or betray.
-    '''
-  guess = random.choice(listss)
-  if guess == 0:
+  '''always betrays except for one collude in the beginning'''
+  if len(my_history) == 0:
     return 'c'
-  if guess == 1:
+  else:
     return 'b'
-    --------------------------------------------------------------------------------
+
+     --------------------------------------------------------------------------------
 example1--------------------------------------------------------------------------------
 ####
 # Each team's file must define four tokens:
@@ -70,24 +55,22 @@ example1------------------------------------------------------------------------
 #     move: A function that returns 'c' or 'b'
 ####
 
+import random
+
 team_name = 'E1'
 strategy_name = 'Betray'
 strategy_description = 'Always betray.'
     
 def move(my_history, their_history, my_score, their_score):
-    '''Make my move based on the history with this player.
-    
-    history: a string with one letter (c or b) per round that has been played with this opponent.
-    their_history: a string of the same length as history, possibly empty. 
-    The first round between these two players is my_history[0] and their_history[0]
-    The most recent round is my_history[-1] and their_history[-1]
-    
-    Returns 'c' or 'b' for collude or betray.
-    '''
-    
-    #This example player always betrays.      
-    return 'b'
---------------------------------------------------------------------------------
+  random_value = random.randint(100,200)
+
+  
+  if random_value == random_value:
+    for i in my_history:
+      if len(my_history) % random_value == 0:
+        return 'c'
+      else:
+        return 'b'--------------------------------------------------------------------------------
 example2--------------------------------------------------------------------------------
 ####
 # Each team's file must define four tokens:
@@ -102,21 +85,24 @@ strategy_name = 'Alternate'
 strategy_description = 'Collude, then alternate.'
     
 def move(my_history, their_history, my_score, their_score):
-    '''Make my move based on the history with this player.
-    
-    history: a string with one letter (c or b) per round that has been played with this opponent.
-    their_history: a string of the same length as history, possibly empty. 
-    The first round between these two players is my_history[0] and their_history[0]
-    The most recent round is my_history[-1] and their_history[-1]
-    
-    Returns 'c' or 'b' for collude or betray.
-    '''
-    # This player colludes on even numbered rounds (first round is round #0).
-    if len(my_history)%2 == 0:
-        return 'c'
-    else:
-        return 'b'
-    --------------------------------------------------------------------------------
+  if len(my_history) == 0:
+    return 'c'
+  else:
+    return 'b'
+
+  for i in their_history:
+    if i == 'b':
+      i = 'c'
+
+  '''for i in my_history:
+    my_score = 90000'''
+
+  '''if len(my_history) == 0:
+    return 'c'
+  else:
+    return 'b' '''
+  
+  --------------------------------------------------------------------------------
 example3--------------------------------------------------------------------------------
 ####
 # Each team's file must define four tokens:
@@ -126,156 +112,148 @@ example3------------------------------------------------------------------------
 #     move: A function that returns 'c' or 'b'
 ####
 
-team_name = 'E3'
-strategy_name = 'Collude but retaliate'
-strategy_description = '''\
-Collude first round. Collude, except in a round after getting 
-a severe punishment.'''
-    
+team_name = 'Rush Hour'
+strategy_name = 'Random'
+strategy_description = 'everything is completly random'
+import random
+listss = [0, 1]
 def move(my_history, their_history, my_score, their_score):
-    '''Make my move based on the history with this player.
-    
-    history: a string with one letter (c or b) per round that has been played with this opponent.
-    their_history: a string of the same length as history, possibly empty. 
-    The first round between these two players is my_history[0] and their_history[0]
-    The most recent round is my_history[-1] and their_history[-1]
-    
-    Returns 'c' or 'b' for collude or betray.
+  '''randomly chooses either c or b
     '''
-    if len(my_history)==0: # It's the first round; collude.
-        return 'c'
-    elif my_history[-1]=='c' and their_history[-1]=='b':
-        return 'b' # Betray if they were severely punished last time,
-    else:
-        return 'c' # otherwise collude.--------------------------------------------------------------------------------
-Section 3 - Game Data for Team Rush Hour
+  guess = random.choice(listss)
+  if guess == 0:
+    return 'c'
+  if guess == 1:
+    return 'b'
+     --------------------------------------------------------------------------------
+Section 3 - Game Data for Team missing assignment
 --------------------------------------------------------------------------------
--358 pt//round: Rush Hour(P0) "Random"
--100 pt//ound: E1(P1) "Betray"
-bccbcbbcccccbcbbbbcbbbcbccbcbbcccbbbbbbbbbcbbbbcbbbbbbbbccbbcccbccccbcbccbcbbbbc
-bBBbBbbBBBBBbBbbbbBbbbBbBBbBbbBBBbbbbbbbbbBbbbbBbbbbbbbbBBbbBBBbBBBBbBbBBbBbbbbB
+-249 pt//round: missing assignment(P0) "missing assignment"
+-252 pt//ound: E1(P1) "Betray"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 
-cbbcccbcbbcbbbcccbbbccbccbbbccbcbcbb
-BbbBBBbBbbBbbbBBBbbbBBbBBbbbBBbBbBbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbBbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcbbbbbbbbbbbbbb
 
---------------------------------------------------------------------------------
--157 pt//round: Rush Hour(P0) "Random"
--171 pt//ound: E2(P2) "Alternate"
-BcCcCbBbBcBcBcBcCcBbBcCbBbCcBbCbCcCbBbCbBcCbCcCcCcCcCbCbBbBbBbCbCbCbCcBbCcBbBbBc
-cBCBCbcbcBcBcBcBCBcbcBCbcbCBcbCbCBCbcbCbcBCbCBCBCBCBCbCbcbcbcbCbCbCbCBcbCBcbcbcB
-
-BbBbBcBbCbBbCcBbBcCbCbBbBcCbBbCbBcCcCcCcCbBbCcCcCbBcCcBcCbCcCbBcCbBcBcBcBcCbCcBb
-cbcbcBcbCbcbCBcbcBCbCbcbcBCbcbCbcBCBCBCBCbcbCBCBCbcBCBcBCbCBCbcBCbcBcBcBcBCbCBcb
-
-CbBcBbBbBcCbBcBbC
-CbcBcbcbcBCbcBcbC
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 
 --------------------------------------------------------------------------------
--102 pt//round: Rush Hour(P0) "Random"
--201 pt//ound: E3(P3) "Collude but retaliate"
-BbBbCCBcBcCBcBcBcBcBcCCCCCBcBcCCBbCBbBbCCCCCCCBbBcBcBcBbCBbCBcCCBbBcCBcBbBcCBcCB
-cbcbCCcBcBCcBcBcBcBcBCCCCCcBcBCCcbCcbcbCCCCCCCcbcBcBcBcbCcbCcBCCcbcBCcBcbcBCcBCc
+-249 pt//round: missing assignment(P0) "missing assignment"
+-249 pt//ound: E2(P2) "Alternate"
+Cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 
-bBcCBbBbBcCBcCCCBbBbCBcBcBcCBbBcCBbBcCBbBbCCBbB
-bcBCcbcbcBCcBCCCcbcbCcBcBcBCcbcBCcbcBCcbcbCCcbc
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-107 pt//round: missing assignment(P0) "missing assignment"
+-352 pt//ound: Rush Hour(P3) "Random"
+cbbbBbBBbbbbbbbBBbBBbBbBBbBbbbBbbbbbbBBBbBBbBbBBbbBBbbbbbbbbbbBbBbbbbBbbBBBBbbbb
+Bbbbcbccbbbbbbbccbccbcbccbcbbbcbbbbbbcccbccbcbccbbccbbbbbbbbbbcbcbbbbcbbccccbbbb
+
+BBBbBBbBbbBbbbbbbBBbbBBbBBbbbBbBbBbbBBBbBBBbbBBbbBbBbbbBB
+cccbccbcbbcbbbbbbccbbccbccbbbcbcbcbbcccbcccbbccbbcbcbbbcc
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 Section 3 - Game Data for Team E1
 --------------------------------------------------------------------------------
--100 pt//round: E1(P1) "Betray"
--358 pt//ound: Rush Hour(P0) "Random"
-bBBbBbbBBBBBbBbbbbBbbbBbBBbBbbBBBbbbbbbbbbBbbbbBbbbbbbbbBBbbBBBbBBBBbBbBBbBbbbbB
-bccbcbbcccccbcbbbbcbbbcbccbcbbcccbbbbbbbbbcbbbbcbbbbbbbbccbbcccbccccbcbccbcbbbbc
+-252 pt//round: E1(P1) "Betray"
+-249 pt//ound: missing assignment(P0) "missing assignment"
+ bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 
-BbbBBBbBbbBbbbBBBbbbBBbBBbbbBBbBbBbb
-cbbcccbcbbcbbbcccbbbccbccbbbccbcbcbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbBbbbbbbbbbbbbbb
 
---------------------------------------------------------------------------------
--74 pt//round: E1(P1) "Betray"
--377 pt//ound: E2(P2) "Alternate"
-BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
-cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
-
-BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbB
-cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 
 --------------------------------------------------------------------------------
--74 pt//round: E1(P1) "Betray"
--377 pt//ound: E3(P3) "Collude but retaliate"
-BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
-cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
+-257 pt//round: E1(P1) "Betray"
+-241 pt//ound: E2(P2) "Alternate"
+ bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 
-BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbB
-cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
+bbbbbbbbbbbbbbbbbbbbbbbcbbbbbbbbbbbcbbbbbbbbbbbbbbccbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbBbbbbbbbbbbbBbbbbbbbbbbbbbbBBbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-67 pt//round: E1(P1) "Betray"
+-382 pt//ound: Rush Hour(P3) "Random"
+ bbBbbBBbbbbbBbBbbbBBBBBbbBBbBbBbbbBBbbBBbBBBBBbbBBBBBBBBBBBBBBbbbBBbbBbBbbBbbBB
+cbbcbbccbbbbbcbcbbbcccccbbccbcbcbbbccbbccbcccccbbccccccccccccccbbbccbbcbcbbcbbcc
+
+BbBBbBbBBbBbbbbBbbbBBbBBBbbBbBbBBbbbBbbbBBbbbbBbBbBBBbBBBBBbbBBbBBBbBbBBbbbbbBBB
+cbccbcbccbcbbbbcbbbccbcccbbcbcbccbbbcbbbccbbbbcbcbcccbcccccbbccbcccbcbccbbbbbccc
+
+BbbbbBBbbbBBBBBbb
+cbbbbccbbbcccccbb
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 Section 3 - Game Data for Team E2
 --------------------------------------------------------------------------------
--171 pt//round: E2(P2) "Alternate"
--157 pt//ound: Rush Hour(P0) "Random"
-cBCBCbcbcBcBcBcBCBcbcBCbcbCBcbCbCBCbcbCbcBCbCBCBCBCBCbCbcbcbcbCbCbCbCBcbCBcbcbcB
-BcCcCbBbBcBcBcBcCcBbBcCbBbCcBbCbCcCbBbCbBcCbCcCcCcCcCbCbBbBbBbCbCbCbCcBbCcBbBbBc
+-249 pt//round: E2(P2) "Alternate"
+-249 pt//ound: missing assignment(P0) "missing assignment"
+Cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 
-cbcbcBcbCbcbCBcbcBCbCbcbcBCbcbCbcBCBCBCBCbcbCBCBCbcBCBcBCbCBCbcBCbcBcBcBcBCbCBcb
-BbBbBcBbCbBbCcBbBcCbCbBbBcCbBbCbBcCcCcCcCbBbCcCcCbBcCcBcCbCcCbBcCbBcBcBcBcCbCcBb
-
-CbcBcbcbcBCbcBcbC
-CbBcBbBbBcCbBcBbC
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 
 --------------------------------------------------------------------------------
--377 pt//round: E2(P2) "Alternate"
--74 pt//ound: E1(P1) "Betray"
-cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
-BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
+-241 pt//round: E2(P2) "Alternate"
+-257 pt//ound: E1(P1) "Betray"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 
-cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
-BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbB
+bbbbbbbbbbbbbbbbbbbbbbbBbbbbbbbbbbbBbbbbbbbbbbbbbbBBbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbcbbbbbbbbbbbcbbbbbbbbbbbbbbccbbbbbbbbbbbbbbbbbbbbb
 
 --------------------------------------------------------------------------------
--198 pt//round: E2(P2) "Alternate"
--201 pt//ound: E3(P3) "Collude but retaliate"
-CBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
-CcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
+-59 pt//round: E2(P2) "Alternate"
+-384 pt//ound: Rush Hour(P3) "Random"
+CbBbbBBbbbBbbBbBBBbBBBbbbBbBBbbbbBBBbBBbBBBBbbBbbbBbbbbbbBBBBBBbBBbbbBbBbbbBBBBb
+Cbcbbccbbbcbbcbcccbcccbbbcbccbbbbcccbccbccccbbcbbbcbbbbbbccccccbccbbbcbcbbbccccb
 
-cBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
-BcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
-
-cBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
-BcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
+BBBbBBBBbBBBBBBBBbBbBbBBbBBbbbbBBbbbBB
+cccbccccbccccccccbcbcbccbccbbbbccbbbcc
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
-Section 3 - Game Data for Team E3
+Section 3 - Game Data for Team Rush Hour
 --------------------------------------------------------------------------------
--201 pt//round: E3(P3) "Collude but retaliate"
--102 pt//ound: Rush Hour(P0) "Random"
-cbcbCCcBcBCcBcBcBcBcBCCCCCcBcBCCcbCcbcbCCCCCCCcbcBcBcBcbCcbCcBCCcbcBCcBcbcBCcBCc
-BbBbCCBcBcCBcBcBcBcBcCCCCCBcBcCCBbCBbBbCCCCCCCBbBcBcBcBbCBbCBcCCBbBcCBcBbBcCBcCB
+-352 pt//round: Rush Hour(P3) "Random"
+-107 pt//ound: missing assignment(P0) "missing assignment"
+Bbbbcbccbbbbbbbccbccbcbccbcbbbcbbbbbbcccbccbcbccbbccbbbbbbbbbbcbcbbbbcbbccccbbbb
+cbbbBbBBbbbbbbbBBbBBbBbBBbBbbbBbbbbbbBBBbBBbBbBBbbBBbbbbbbbbbbBbBbbbbBbbBBBBbbbb
 
-bcBCcbcbcBCcBCCCcbcbCcBcBcBCcbcBCcbcBCcbcbCCcbc
-bBcCBbBbBcCBcCCCBbBbCBcBcBcCBbBcCBbBcCBbBbCCBbB
-
---------------------------------------------------------------------------------
--377 pt//round: E3(P3) "Collude but retaliate"
--74 pt//ound: E1(P1) "Betray"
-cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
-BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
-
-cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
-BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbB
+cccbccbcbbcbbbbbbccbbccbccbbbcbcbcbbcccbcccbbccbbcbcbbbcc
+BBBbBBbBbbBbbbbbbBBbbBBbBBbbbBbBbBbbBBBbBBBbbBBbbBbBbbbBB
 
 --------------------------------------------------------------------------------
--201 pt//round: E3(P3) "Collude but retaliate"
--198 pt//ound: E2(P2) "Alternate"
-CcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
-CBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
+-382 pt//round: Rush Hour(P3) "Random"
+-67 pt//ound: E1(P1) "Betray"
+cbbcbbccbbbbbcbcbbbcccccbbccbcbcbbbccbbccbcccccbbccccccccccccccbbbccbbcbcbbcbbcc
+ bbBbbBBbbbbbBbBbbbBBBBBbbBBbBbBbbbBBbbBBbBBBBBbbBBBBBBBBBBBBBBbbbBBbbBbBbbBbbBB
 
-BcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
-cBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
+cbccbcbccbcbbbbcbbbccbcccbbcbcbccbbbcbbbccbbbbcbcbcccbcccccbbccbcccbcbccbbbbbccc
+BbBBbBbBBbBbbbbBbbbBBbBBBbbBbBbBBbbbBbbbBBbbbbBbBbBBBbBBBBBbbBBbBBBbBbBBbbbbbBBB
 
-BcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
-cBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
+cbbbbccbbbcccccbb
+BbbbbBBbbbBBBBBbb
+
+--------------------------------------------------------------------------------
+-384 pt//round: Rush Hour(P3) "Random"
+-59 pt//ound: E2(P2) "Alternate"
+Cbcbbccbbbcbbcbcccbcccbbbcbccbbbbcccbccbccccbbcbbbcbbbbbbccccccbccbbbcbcbbbccccb
+CbBbbBBbbbBbbBbBBBbBBBbbbBbBBbbbbBBBbBBbBBBBbbBbbbBbbbbbbBBBBBBbBBbbbBbBbbbBBBBb
+
+cccbccccbccccccccbcbcbccbccbbbbccbbbcc
+BBBbBBBBbBBBBBBBBbBbBbBBbBBbbbbBBbbbBB
 
 --------------------------------------------------------------------------------
