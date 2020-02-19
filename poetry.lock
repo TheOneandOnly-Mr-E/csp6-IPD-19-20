@@ -1,0 +1,14 @@
+[[package]]
+category = "main"
+description = "more detailed python backtraces (similar to backtrace module)"
+name = "pd"
+optional = false
+python-versions = "*"
+version = "0.0.1"
+
+[metadata]
+content-hash = "e904c8ac22c06f6262d3b9afe3c43c0928fb48401674be4c5595975aa0707993"
+python-versions = "^3.7"
+
+[metadata.hashes]
+pd = ["8533b40173978f7b7be521bb6c92fd03c5af7cca3171e1eff02af0e213cfa480"]
