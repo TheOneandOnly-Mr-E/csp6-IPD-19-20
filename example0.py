@@ -19,4 +19,5 @@ def move(my_history, their_history, my_score, their_score):
     return 'c'
   if guess == 1:
     return 'b'
-    
+     
+     
